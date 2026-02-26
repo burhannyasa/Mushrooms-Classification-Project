@@ -1,37 +1,71 @@
-# Mushrooms-Classification-Project
-This project aims to develop a supervised machine learning model to classify mushrooms as edible, poisonous, or of unknown edibility, with the latter grouped with poisonous for safety. By exploring various classification algorithms, we seek to uncover patterns in the mushroom dataset, ensuring informed and safe consumption decisions.
-The goal is to create a predictive model to determine mushroom edibility with certainty. By analyzing features, exploring machine learning algorithms, and tuning parameters, the aim is to develop a reliable edibility prediction framework. This project leverages machine learning to address real-world challenges and enhances understanding of fungal taxonomy and safety, equipping individuals to navigate the world of fungi confidently.
+# 🍄 Mantar Sınıflandırması – Denetimli Makine Öğrenmesi
 
+## 📌 Proje Özeti
+Bu proje, UCI Mantar veri setini kullanarak mantarları **yenilebilir veya zehirli** olarak sınıflandırmak için denetimli makine öğrenmesi modelleri geliştirmektedir.  
 
-Variables
-cap-shape: bell=b,conical=c,convex=x,flat=f, knobbed=k,sunken=s
-cap-surface: fibrous=f,grooves=g,scaly=y,smooth=s
-cap-color: brown=n,buff=b,cinnamon=c,gray=g,green=r,pink=p,purple=u,red=e,white=w,yellow=y
-bruises: bruises=t,no=f
-odor: almond=a,anise=l,creosote=c,fishy=y,foul=f,musty=m,none=n,pungent=p,spicy=s
-gill-attachment: attached=a,descending=d,free=f,notched=n
-gill-spacing: close=c,crowded=w,distant=d
-gill-size: broad=b,narrow=n
-gill-color: black=k,brown=n,buff=b,chocolate=h,gray=g, green=r,orange=o,pink=p,purple=u,red=e,white=w,yellow=y
-stalk-shape: enlarging=e,tapering=t
-stalk-root: bulbous=b,club=c,cup=u,equal=e,rhizomorphs=z,rooted=r,missing=?
-stalk-surface-above-ring: fibrous=f,scaly=y,silky=k,smooth=s
-stalk-surface-below-ring: fibrous=f,scaly=y,silky=k,smooth=s
-stalk-color-above-ring: brown=n,buff=b,cinnamon=c,gray=g,orange=o,pink=p,red=e,white=w,yellow=y
-stalk-color-below-ring: brown=n,buff=b,cinnamon=c,gray=g,orange=o,pink=p,red=e,white=w,yellow=y
-veil-type: partial=p,universal=u
-veil-color: brown=n,orange=o,white=w,yellow=y
-ring-number: none=n,one=o,two=t
-ring-type: cobwebby=c,evanescent=e,flaring=f,large=l,none=n,pendant=p,sheathing=s,zone=z
-spore-print-color: black=k,brown=n,buff=b,chocolate=h,green=r,orange=o,purple=u,white=w,yellow=y
-population: abundant=a,clustered=c,numerous=n,scattered=s,several=v,solitary=y
-habitat: grasses=g,leaves=l,meadows=m,paths=p,urban=u,waste=w,woods=d
+Amaç, birden fazla sınıflandırma algoritmasını karşılaştırmak, kategorik özellikleri analiz etmek ve yüksek performanslı bir tahmin modeli oluşturmaktır.
 
+---
 
+## 📊 Veri Seti
+- Kaynak: UCI Mantar Veri Seti  
+- Gözlem Sayısı: 8.124  
+- Özellikler: 23 kategorik değişken  
+- Hedef Değişken: `class` (yenilebilir / zehirli)
 
+Tüm değişkenler mantarın fiziksel özelliklerini (şapka şekli, yüzey, renk, koku, lamel özellikleri, sap özellikleri, spor rengi, popülasyon ve habitat) tanımlar.  
 
+Eksik veri bulunmamaktadır, sadece özel kodlamalar vardı ve bunlar veri ön işleme aşamasında ele alındı.
 
+---
 
+## 🔎 Keşifsel Veri Analizi
+- Kategorik değişkenlerin dağılım analizi  
+- Cramer's V korelasyon analizi  
+- Yüksek tahmin gücüne sahip özelliklerin belirlenmesi (örn. koku, spor-rengi, lamel-rengi)
 
+Bazı özelliklerin hedef değişken ile güçlü korelasyonu, modellerin yüksek başarı göstermesini açıklamaktadır.
 
+---
 
+## 🤖 Kullanılan Modeller
+5 katlı çapraz doğrulama ile karşılaştırılan algoritmalar:  
+
+- Lojistik Regresyon  
+- K-En Yakın Komşu  
+- Destek Vektör Makineleri  
+- Karar Ağacı  
+- Random Forest  
+- Extra Trees  
+- Bagging Sınıflandırıcı  
+
+---
+
+## ⚙️ Model Optimizasyonu
+- GridSearchCV ile hiperparametre optimizasyonu  
+- RFECV ve Sıralı Özellik Seçimi ile özellik seçimi  
+- ROC eğrisi ve AUC analizi  
+
+---
+
+## 📈 Sonuçlar
+- Lojistik Regresyon: ~%97 test doğruluk  
+- ROC-AUC Skoru: 0,97  
+- Random Forest: Neredeyse mükemmel sınıflandırma performansı (F1 ≈ 0,99)
+
+Random Forest, en stabil ve dengeli model olarak öne çıktı.
+
+---
+
+## 🛠 Kullanılan Teknolojiler
+- Python  
+- Pandas  
+- NumPy  
+- Scikit-learn  
+- Matplotlib  
+- Seaborn  
+
+---
+
+## 📌 Sonuç
+Veri setindeki sınıflar arasındaki güçlü ayrışabilirlik nedeniyle, topluluk (ensemble) yöntemleri neredeyse mükemmel sonuçlar verdi. Dayanıklılığı ve kararlılığı nedeniyle Random Forest, final modeli olarak seçildi.
