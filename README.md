@@ -1,56 +1,48 @@
 # 🍄 Mantar Sınıflandırması – Denetimli Makine Öğrenmesi
 
 ## 📌 Proje Özeti
-Bu proje, UCI Mantar veri setini kullanarak mantarları **yenilebilir veya zehirli** olarak sınıflandırmak için denetimli makine öğrenmesi modelleri geliştirmektedir. Amaç, birden fazla sınıflandırma algoritmasını karşılaştırmak, kategorik özellikleri analiz etmek ve yüksek performanslı bir tahmin modeli oluşturmaktır.
+Bu proje, UCI Mantar veri setini kullanarak mantarları **yenilebilir veya zehirli** olarak sınıflandırmak için denetimli makine öğrenmesi modelleri geliştirmektedir. İstatistiksel analizler ve ileri seviye makine öğrenmesi teknikleri ile %100'e yakın doğruluk hedeflenmiştir.
 
 ---
 
-## 📊 Veri Seti
-- **Kaynak:** UCI Mantar Veri Seti (8.124 gözlem, 23 kategorik değişken).
-- **Hedef Değişken:** `class` (yenilebilir / zehirli).
-- Tüm değişkenler mantarın fiziksel özelliklerini (şapka şekli, yüzey, renk, koku vb.) tanımlar. Eksik veri bulunmamaktadır, veri ön işleme aşamasında özel kodlamalar (encoding) ele alınmıştır.
+## 📊 Veri Seti ve Dağılım
+Veri seti 8.124 gözlemden oluşmaktadır. Aşağıdaki grafik, mantar popülasyon tiplerinin yenilebilirlik durumuna göre dağılımını göstermektedir:
+
+![Population Distribution](outputs/population_distribution.png)
+*Görselde görüldüğü üzere, "Several" (Çeşitli) popülasyon tipi verinin yaklaşık %50'sini oluştururken, zehirli mantarların büyük bir kısmı bu grupta toplanmıştır.*
 
 ---
 
 ## 🔎 Keşifsel Veri Analizi (EDA)
-Kategorik değişkenlerin dağılımı ve **Cramer's V korelasyon analizi** ile değişkenler arası ilişkiler incelenmiştir.
+Değişkenler arasındaki kategorik ilişkileri belirlemek için **Cramer's V** skorları hesaplanmış ve ısı haritası oluşturulmuştur.
 
-![Cramer's V Correlation](outputs/cramers_v_correlation.png)
-*Özellikle koku, spor-rengi ve lamel-rengi gibi özelliklerin hedef değişken ile güçlü korelasyonu, modellerin yüksek başarısını açıklamaktadır.*
-
----
-
-## ⚙️ Model Optimizasyonu ve Özellik Seçimi
-İnternet kaynaklarında nadir görülen **Recursive Feature Elimination (RFECV)** metoduyla optimal değişken sayısı belirlenmiş ve **Sequential Feature Selector** ile en iyi 3 değişken seçilmiştir.
-
-![Feature Selection Process](outputs/feature_selection_process.png)
+![Cramer's V Heatmap](outputs/cramers_v_heatmap.png)
+*Isı haritası, özellikle 'odor' (koku) ve 'gill-color' gibi özelliklerin hedef değişken (class) ile ne kadar güçlü bir ilişkiye sahip olduğunu kanıtlamaktadır.*
 
 ---
 
-## 🤖 Kullanılan Modeller ve Performans
-5 katlı çapraz doğrulama ile karşılaştırılan algoritmalar: Lojistik Regresyon, KNN, SVM, Karar Ağacı, Random Forest, Extra Trees ve Bagging Sınıflandırıcı.
+## ⚙️ Özellik Seçimi ve Boyut İndirgeme
+22 farklı kategorik özellik, model karmaşıklığını azaltmak için analiz edilmiştir. **PCA (Temel Bileşenler Analizi)** ile veri 2 boyuta indirilerek sınıfların ayrışabilirliği görselleştirilmiştir.
 
-![Confusion Matrix](outputs/random_forest_confusion_matrix.png)
-
-### 📈 Sonuçlar
-- **Random Forest:** %99.3 doğruluk oranı ve mükemmele yakın F1 skoru ile en stabil model olarak seçilmiştir.
-- **Lojistik Regresyon:** ~%97 test doğruluğu ve 0.97 ROC-AUC skoru elde edilmiştir.
+![PCA Visualization](outputs/pca_visualization.png)
+*Sarı ve mor kümelerin net ayrımı, doğrusal olmayan modellerin bu veri setinde neden çok yüksek başarı elde ettiğini açıklamaktadır.*
 
 ---
 
-## 🗺️ Boyut İndirgeme ve Görselleştirme
-22 boyutlu veri seti **PCA** ile 2 boyuta indirgenmiş ve **K-Means** algoritması ile kümelenme yapısı analiz edilmiştir.
+## 🤖 Model Performansı ve Karar Mekanizması
+Random Forest ve Karar Ağaçları gibi topluluk yöntemleri kullanılmıştır. Modelin karar verme süreci aşağıdaki şema ile şeffaflaştırılmıştır:
 
-![PCA Clusters](outputs/pca_clusters_visualization.png)
+![Decision Tree Structure](outputs/decision_tree_structure.png)
+*Karar ağacı, 'odor' özelliğinin ilk ayrımda ne kadar kritik bir rol oynadığını doğrulamaktadır (Gini indeksi analizi).*
 
 ---
 
 ## 🛠 Kullanılan Teknolojiler
-- **Diller:** Python (Pandas, NumPy, Scikit-learn).
-- **Görselleştirme:** Matplotlib, Seaborn.
-- **Yöntemler:** GridSearchCV (Hiperparametre optimizasyonu), RFECV, PCA.
+- **Kütüphaneler:** Python (Pandas, Scikit-learn, Yellowbrick, Mlxtend).
+- **Analiz:** PCA, RFECV, Cramer's V, K-Means.
+- **Modeller:** Random Forest, SVM, Logistic Regression, KNN.
 
 ---
 
 ## 📌 Sonuç
-Veri setindeki sınıflar arasındaki güçlü ayrışabilirlik sayesinde topluluk (ensemble) yöntemleri mükemmel sonuçlar vermiştir. Dayanıklılığı ve kararlılığı nedeniyle Random Forest, final modeli olarak belirlenmiştir. Detaylı teknik analizler için `reports/` klasöründeki PDF raporu inceleyebilirsiniz.
+Proje sonucunda Random Forest modeli **%99.3** doğruluk elde etmiştir. Bu yüksek başarı oranı, doğru özellik seçimi ve veri setindeki sınıfların (yenilebilir/zehirli) belirgin fiziksel farklara sahip olmasıyla ilişkilendirilmiştir.
