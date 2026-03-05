@@ -9,6 +9,7 @@ Bu proje, UCI Mantar veri setini kullanarak mantarları **yenilebilir veya zehir
 Veri seti 8.124 gözlemden oluşmaktadır. Aşağıdaki grafik, mantar popülasyon tiplerinin yenilebilirlik durumuna göre dağılımını göstermektedir:
 
 ![Population Distribution](outputs/population_distribution.png)
+
 *Görselde görüldüğü üzere, "Several" (Çeşitli) popülasyon tipi verinin yaklaşık %50'sini oluştururken, zehirli mantarların büyük bir kısmı bu grupta toplanmıştır.*
 
 ---
